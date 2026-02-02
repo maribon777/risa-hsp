@@ -60,8 +60,9 @@
             box-shadow: 0 10px 25px rgba(156, 140, 140, 0.1);
         }
         
+        /* 画像拡大エフェクト（containに変更したため、拡大はコンテナ内で行われます） */
         .img-zoom-container { overflow: hidden; }
-        .img-zoom { transition: transform 1.5s ease; width: 100%; height: 100%; object-fit: cover; }
+        .img-zoom { transition: transform 1.5s ease; width: 100%; height: 100%; }
         .hover-card:hover .img-zoom { transform: scale(1.05); }
 
         .glass-item {
@@ -138,8 +139,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                 <a href="https://www.amazon.co.jp/stores/author/B0DTTXQV2K/allbooks?_encoding=UTF8&ref_=aufs_ap_ahdr_dsk_ab&pd_rd_w=mjwOn&content-id=amzn1.sym.c8ae5043-8410-40be-b001-e431eb44a0f4&pf_rd_p=c8ae5043-8410-40be-b001-e431eb44a0f4&pf_rd_r=144-6092511-3145931&pd_rd_wg=2m7yW&pd_rd_r=6a94a0df-487d-4a9a-850c-63ac41b52831" target="_blank" class="block group hover-card rounded bg-white overflow-hidden pb-4">
-                    <div class="h-56 md:h-64 w-full mb-4 img-zoom-container">
-                        <img src="https://risa-hsp.github.io/profile/assets/assets/banner1.webp" class="img-zoom" alt="Amazon" onerror="this.style.display='none'">
+                    <div class="h-40 md:h-48 w-full mb-4 img-zoom-container bg-[#fcf9f6] border-b border-[#e8d0d0]">
+                        <img src="https://risa-hsp.github.io/profile/assets/assets/banner1.webp" class="img-zoom object-contain" alt="Amazon" onerror="this.style.display='none'">
                     </div>
                     <div class="text-center md:text-left px-4">
                         <span class="text-[10px] border border-[#d4b5b5] px-2 py-1 tracking-widest text-[#9c8c8c] mb-2 inline-block">BOOKS</span>
@@ -151,8 +152,8 @@
                 </a>
 
                 <a href="https://www.reservestock.jp/page/fast_scoring/2510" target="_blank" class="block group hover-card rounded bg-white overflow-hidden pb-4">
-                    <div class="h-56 md:h-64 w-full mb-4 img-zoom-container">
-                        <img src="https://risa-hsp.github.io/profile/assets/assets/banner2.webp" class="img-zoom" alt="Diagnosis" onerror="this.style.display='none'">
+                    <div class="h-40 md:h-48 w-full mb-4 img-zoom-container bg-[#fcf9f6] border-b border-[#e8d0d0]">
+                        <img src="https://risa-hsp.github.io/profile/assets/assets/banner2.webp" class="img-zoom object-contain" alt="Diagnosis" onerror="this.style.display='none'">
                     </div>
                     <div class="text-center md:text-left px-4">
                         <span class="text-[10px] border border-[#d4b5b5] px-2 py-1 tracking-widest text-[#9c8c8c] mb-2 inline-block">DIAGNOSIS</span>
@@ -172,7 +173,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <a href="https://tqv.jp/u/Folic/a/dOabqu6U/eSw34Lfk" target="_blank" class="block bg-white border border-[#e8d0d0] rounded hover-card overflow-hidden group">
                         <div class="w-full h-40 md:h-48 bg-[#fcf9f6] overflow-hidden border-b border-[#e8d0d0]">
-                            <img src="https://risa-hsp.github.io/profile/assets/assets/affiliate1.webp" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Rec1" onerror="this.style.display='none'">
+                            <img src="https://risa-hsp.github.io/profile/assets/assets/affiliate1.webp" class="w-full h-full object-contain opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Rec1" onerror="this.style.display='none'">
                         </div>
                         <div class="p-4">
                             <span class="text-[9px] bg-white px-2 py-0.5 tracking-widest text-[#9c8c8c] border border-[#e8d0d0] mb-2 inline-block">PICK UP</span>
@@ -183,7 +184,7 @@
 
                     <a href="https://brmk.io/qazZ1V" target="_blank" class="block bg-white border border-[#e8d0d0] rounded hover-card overflow-hidden group">
                         <div class="w-full h-40 md:h-48 bg-[#fcf9f6] overflow-hidden border-b border-[#e8d0d0]">
-                            <img src="https://risa-hsp.github.io/profile/assets/assets/affiliate2.webp" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Rec2" onerror="this.style.display='none'">
+                            <img src="https://risa-hsp.github.io/profile/assets/assets/affiliate2.webp" class="w-full h-full object-contain opacity-90 group-hover:scale-105 transition-transform duration-700" alt="Rec2" onerror="this.style.display='none'">
                         </div>
                         <div class="p-4">
                             <span class="text-[9px] bg-white px-2 py-0.5 tracking-widest text-[#9c8c8c] border border-[#e8d0d0] mb-2 inline-block">PICK UP</span>
