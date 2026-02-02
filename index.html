@@ -20,25 +20,293 @@
         }
         .font-eng { font-family: 'Cormorant Garamond', serif; }
         
-        /* 以前のような隠す処理は一切入れません */
-        
         /* 装飾 */
         .hero-glow {
             box-shadow: 0 0 0 1px rgba(255,255,255,0.5), 0 20px 60px rgba(212, 181, 181, 0.2);
         }
         .banner-card {
-            position: relative; overflow: hidden; border-radius: 4px; background: #fff;
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 4px; 
+            background: #fff;
             box-shadow: 0 4px 20px rgba(156, 140, 140, 0.05);
         }
         .rec-card {
-            background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(212, 181, 181, 0.3);
+            background: rgba(255, 255, 255, 0.6); 
+            border: 1px solid rgba(212, 181, 181, 0.3);
         }
         .note-card {
-            display: block; background: #fff; border: 1px solid rgba(212, 181, 181, 0.2);
-            border-radius: 4px; overflow: hidden;
+            display: block; 
+            background: #fff; 
+            border: 1px solid rgba(212, 181, 181, 0.2);
+            border-radius: 4px; 
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .note-card:hover {
+            transform: translateY(-4px);
+        }
+        /* ★追加: note画像エリアのスタイル */
+        .note-img-area {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            background: #f5f0ed;
+        }
+        .note-img-area img {
+            transition: transform 0.3s ease;
+        }
+        .note-card:hover .note-img-area img {
+            transform: scale(1.05);
         }
         .glass-item {
             background: rgba(255, 255, 255, 0.4);
             border-bottom: 1px solid rgba(212, 181, 181, 0.2);
+            transition: background 0.3s ease;
         }
-    </
+        .glass-item:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+        /* ★画像読み込みエラー時のスタイル */
+        img {
+            background: #f5f0ed;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // ★画像URLの設定
+        const BASE_URL = "https://risa-hsp.github.io/profile/assets/assets";
+        
+        // ★画像読み込みエラーハンドリング用のコンポーネント
+        const ImageWithFallback = ({ src, alt, className, fallbackText }) => {
+            const [error, setError] = useState(false);
+            
+            if (error) {
+                return (
+                    <div className={`${className} flex items-center justify-center bg-gray-100`}>
+                        <span className="text-xs text-gray-400">{fallbackText || '画像読み込み中...'}</span>
+                    </div>
+                );
+            }
+            
+            return (
+                <img 
+                    src={src} 
+                    alt={alt} 
+                    className={className}
+                    onError={() => {
+                        console.error(`画像読み込みエラー: ${src}`);
+                        setError(true);
+                    }}
+                    onLoad={() => console.log(`画像読み込み成功: ${src}`)}
+                />
+            );
+        };
+
+        const App = () => {
+            // ★デバッグ用：画像URLを確認
+            useEffect(() => {
+                console.log('BASE_URL:', BASE_URL);
+                console.log('プロフィール画像URL:', `${BASE_URL}/profile1.webp`);
+            }, []);
+
+            return (
+                <div className="min-h-screen pb-20">
+                    <main className="container mx-auto px-6 max-w-3xl pt-24 md:pt-32 relative z-10">
+
+                        {/* プロフィールエリア */}
+                        <div className="text-center mb-24 md:mb-32">
+                            <div className="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-10">
+                                <div className="w-full h-full rounded-full overflow-hidden bg-[#fffaf8] relative hero-glow">
+                                    <ImageWithFallback 
+                                        src={`${BASE_URL}/profile1.webp`}
+                                        alt="Risa"
+                                        className="w-full h-full object-cover"
+                                        fallbackText="Profile"
+                                    />
+                                </div>
+                            </div>
+                            <h1 className="font-eng text-4xl md:text-5xl text-[#5e4d4d] mb-4 tracking-widest">Risa Kawakami</h1>
+                            <p className="font-eng text-xs tracking-[0.3em] text-[#9c8c8c] uppercase mb-8">HSS / HSP Creator</p>
+                        </div>
+
+                        {/* Philosophy */}
+                        <section className="mb-32 md:mb-40 px-4 md:px-12 text-center md:text-left">
+                            <div className="border-l-2 border-[#d4b5b5] pl-6 md:pl-10 py-2">
+                                <p className="text-sm md:text-base leading-loose md:leading-[2.5] text-[#5e4d4d] font-medium">繊細すぎて、生きづらいと感じていた。<br/>飽きっぽくて、何者にもなれないと焦っていた。</p>
+                                <div className="h-8"></div>
+                                <p className="text-sm md:text-base leading-loose md:leading-[2.5] text-[#5e4d4d]">でも、それは「欠点」ではありません。<br/>世界の彩りを深く感じる心。<br/>次々と新しい扉を開く好奇心。</p>
+                                <div className="h-8"></div>
+                                <p className="text-base md:text-lg leading-loose md:leading-[2.5] font-bold text-[#5e4d4d]">HSS型HSPの気質は、<br className="md:hidden"/>クリエイティブのための「才能」です。</p>
+                                <p className="text-sm md:text-base leading-loose md:leading-[2.5] text-[#5e4d4d] mt-4 opacity-80">AIという絵筆。Kindleという本棚。<br/>静かな場所から、あなたの物語はもっと遠くへ行ける。</p>
+                            </div>
+                        </section>
+
+                        {/* Works */}
+                        <section className="mb-20">
+                            <div className="flex items-center gap-4 mb-10 justify-center md:justify-start">
+                                <span className="h-[1px] w-8 bg-[#d4b5b5]"></span>
+                                <h2 className="font-eng text-xl tracking-[0.2em] text-[#9c8c8c]">WORKS</h2>
+                                <span className="h-[1px] w-8 bg-[#d4b5b5]"></span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                                {/* Amazon */}
+                                <a href="https://www.amazon.co.jp/stores/author/B0DTTXQV2K/allbooks" target="_blank" className="block group">
+                                    <div className="banner-card h-56 md:h-64 w-full mb-6">
+                                        <ImageWithFallback 
+                                            src={`${BASE_URL}/banner1.webp`}
+                                            alt="Amazon"
+                                            className="w-full h-full object-cover"
+                                            fallbackText="Amazon Author"
+                                        />
+                                    </div>
+                                    <div className="text-center md:text-left px-2">
+                                        <h3 className="text-lg font-bold text-[#5e4d4d] mb-2 font-eng">Amazon Author Page</h3>
+                                        <p className="text-xs text-[#9c8c8c] mb-3 font-serif tracking-wide">絵本・エッセイ一覧</p>
+                                        <p className="text-sm text-[#5e4d4d] leading-relaxed opacity-80">HSS型HSPの心に灯りをともす、静かな物語。</p>
+                                    </div>
+                                </a>
+                                {/* 診断 */}
+                                <a href="https://www.reservestock.jp/page/fast_scoring/2510" target="_blank" className="block group">
+                                    <div className="banner-card h-56 md:h-64 w-full mb-6">
+                                        <ImageWithFallback 
+                                            src={`${BASE_URL}/banner2.webp`}
+                                            alt="Diagnosis"
+                                            className="w-full h-full object-cover"
+                                            fallbackText="Aura Color"
+                                        />
+                                    </div>
+                                    <div className="text-center md:text-left px-2">
+                                        <h3 className="text-lg font-bold text-[#5e4d4d] mb-2 font-eng">Aura Color Diagnosis</h3>
+                                        <p className="text-xs text-[#9c8c8c] mb-3 font-serif tracking-wide">オーラカラー診断</p>
+                                        <p className="text-sm text-[#5e4d4d] leading-relaxed opacity-80">心理テストと4元素で紐解く、あなたの本質。</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </section>
+
+                        {/* Recommend */}
+                        <section className="mb-32">
+                            <div className="max-w-4xl mx-auto">
+                                <p className="text-center md:text-left font-eng text-xs tracking-[0.2em] text-[#d4b5b5] mb-6">RECOMMEND</p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <a href="https://tqv.jp/u/Folic/a/dOabqu6U/eSw34Lfk" target="_blank" className="block rec-card p-6 md:p-8 rounded-sm group flex flex-col md:flex-row md:items-center gap-6">
+                                        <div className="w-full md:w-24 h-32 md:h-24 bg-[#fcf9f6] overflow-hidden relative shrink-0 border border-[#e8d0d0]">
+                                            <ImageWithFallback 
+                                                src={`${BASE_URL}/affiliate1.webp`}
+                                                alt="Rec1"
+                                                className="w-full h-full object-cover opacity-90"
+                                                fallbackText="講座"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <span className="text-[9px] bg-[#fff] px-2 py-0.5 tracking-widest text-[#9c8c8c] border border-[#e8d0d0] mb-2 inline-block">PICK UP</span>
+                                            <h3 className="font-eng text-lg text-[#5e4d4d] mb-1">絵本制作講座</h3>
+                                            <p className="text-xs text-[#5e4d4d] leading-relaxed opacity-80">あなたも夢の絵本作家デビュー</p>
+                                        </div>
+                                    </a>
+                                    <a href="https://brmk.io/qazZ1V" target="_blank" className="block rec-card p-6 md:p-8 rounded-sm group flex flex-col md:flex-row md:items-center gap-6">
+                                        <div className="w-full md:w-24 h-32 md:h-24 bg-[#fcf9f6] overflow-hidden relative shrink-0 border border-[#e8d0d0]">
+                                            <ImageWithFallback 
+                                                src={`${BASE_URL}/affiliate2.webp`}
+                                                alt="Rec2"
+                                                className="w-full h-full object-cover opacity-90"
+                                                fallbackText="テンプレ"
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <span className="text-[9px] bg-[#fff] px-2 py-0.5 tracking-widest text-[#9c8c8c] border border-[#e8d0d0] mb-2 inline-block">PICK UP</span>
+                                            <h3 className="font-eng text-lg text-[#5e4d4d] mb-1">デザインテンプレパック50</h3>
+                                            <p className="text-xs text-[#5e4d4d] leading-relaxed opacity-80">図解や漫画投稿も簡単</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* My Contents */}
+                        <section className="mb-24">
+                            <div className="text-center mb-10">
+                                <h2 className="font-eng text-sm tracking-[0.2em] text-[#d4b5b5] mb-2">MY CONTENTS</h2>
+                                <p className="font-serif text-lg text-[#5e4d4d]">世界観に触れる</p>
+                            </div>
+                            <div className="max-w-xl mx-auto space-y-4">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <a href="https://note.com/oracle_risa_art/n/na1521311acdc" target="_blank" className="note-card block group">
+                                        <div className="note-img-area">
+                                            <ImageWithFallback 
+                                                src={`${BASE_URL}/note1.webp`}
+                                                alt="note1"
+                                                className="w-full h-full object-cover"
+                                                fallbackText="Note 1"
+                                            />
+                                        </div>
+                                        <div className="p-4">
+                                            <p className="text-[10px] text-[#9c8c8c] tracking-widest uppercase mb-1">エッセイを読む</p>
+                                            <h3 className="text-xs md:text-sm font-bold text-[#5e4d4d] leading-relaxed">5日間伴走型♡自己理解リーディング</h3>
+                                        </div>
+                                    </a>
+                                    <a href="https://note.com/oracle_risa_art/n/n83e1c594551f" target="_blank" className="note-card block group">
+                                        <div className="note-img-area">
+                                            <ImageWithFallback 
+                                                src={`${BASE_URL}/note2.webp`}
+                                                alt="note2"
+                                                className="w-full h-full object-cover"
+                                                fallbackText="Note 2"
+                                            />
+                                        </div>
+                                        <div className="p-4">
+                                            <p className="text-[10px] text-[#9c8c8c] tracking-widest uppercase mb-1">エッセイを読む</p>
+                                            <h3 className="text-xs md:text-sm font-bold text-[#5e4d4d] leading-relaxed">AIアート×自己表現入門ガイド</h3>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div className="space-y-2 pt-2">
+                                    <a href="https://suzuri.jp/Risa_Kawakami/products" target="_blank" className="glass-item flex items-center justify-between p-5 w-full group">
+                                        <div className="flex flex-col md:flex-row md:items-baseline md:gap-4">
+                                            <span className="font-eng text-lg text-[#5e4d4d] tracking-wide">Suzuri Store</span>
+                                            <span className="text-xs text-[#9c8c8c] font-serif">- オリジナルグッズ</span>
+                                        </div>
+                                        <span className="text-[#d4b5b5]">→</span>
+                                    </a>
+                                    <a href="https://jib2762586.owndshop.com/" target="_blank" className="glass-item flex items-center justify-between p-5 w-full group">
+                                        <div className="flex flex-col md:flex-row md:items-baseline md:gap-4">
+                                            <span className="font-eng text-lg text-[#5e4d4d] tracking-wide">BASE Shop</span>
+                                            <span className="text-xs text-[#9c8c8c] font-serif">- 壁紙・カード鑑定</span>
+                                        </div>
+                                        <span className="text-[#d4b5b5]">→</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
+
+                        <footer className="text-center pt-12 border-t border-[#ebdada] opacity-60">
+                            <div className="flex justify-center items-center gap-8 mb-6">
+                                <a href="https://www.instagram.com/risa.art.fortune/" target="_blank" className="hover:opacity-50 transition-opacity">
+                                    <span className="font-eng text-xs tracking-widest">INSTAGRAM</span>
+                                </a>
+                                <a href="https://www.threads.com/@risa.art.fortune" target="_blank" className="hover:opacity-50 transition-opacity">
+                                    <span className="font-eng text-xs tracking-widest">THREADS</span>
+                                </a>
+                                <a href="https://line.me/R/ti/p/@460aytuk" target="_blank" className="hover:opacity-50 transition-opacity flex items-center gap-1">
+                                    <span className="font-eng text-xs tracking-widest">LINE</span>
+                                </a>
+                            </div>
+                            <p className="font-eng text-[10px] tracking-[0.2em]">© Risa Kawakami.</p>
+                        </footer>
+
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
